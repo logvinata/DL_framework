@@ -1,0 +1,8 @@
+To start the enviroment cd to task_framework and do 
+"source /Media/D/natalinux/distributed-learning/0.\ Prod\ DL/task_framework/.DL/bin/activate"
+I used "pip install -r requirements.txt" to install the requirements 
+as conda didn't want to install all if them and didn't create the enviroment
+
+To make import work run 
+"export PYTHONPATH="${PYTHONPATH}:/Media/D/natalinux/distributed-learning/0.\ Prod\ DL/task_framework/.DL/bin""
+OR add it to bin/activate file in your enviroment

@@ -1,0 +1,10 @@
+# enviroment
+.venv
+.vscode
+.DL
+.dc_env
+
+
+#others
+__pycache__
+
