@@ -1,6 +1,6 @@
 # Framework for distributed learning
-## The framework is in dc_framework folder
-## The tests are in tests folder
+#### The framework is in dc_framework folder
+#### The tests are in tests folder
 
 ### State
 For now this is the simplest version I was able to implement fast
