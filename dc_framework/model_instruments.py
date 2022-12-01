@@ -66,7 +66,7 @@ class DCFramework:
         val_data = Dataset(val_data)
         gpu = ((self.device != "cpu") & gpu)
         # print(f"gpu {gpu}")
-        val_dataloader = val_data.get_dataloader(batch_size=batch_size, gpu=gpu)
+        val_dataloader = val_data.get_dataloader(batch_size=batch_size, gpu=gpu, train=False)
         val_losses = []
         self.model.eval()
         # print(f'model device {self.device}')
@@ -74,7 +74,7 @@ class DCFramework:
         with torch.no_grad():
 
             for x_batch, y_batch in val_dataloader:
-
+                
                 if gpu:
                     x_batch, y_batch = x_batch.to(self.device, non_blocking=True), y_batch.to(self.device,non_blocking=True)
 

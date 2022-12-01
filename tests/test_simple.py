@@ -52,7 +52,7 @@ def load_model_dict_test(path, validate=True):
     if validate:
         val_data = {
         "feature": np.array([[0, 0], [0, 2], [2, 0], [2, 2]]),
-        "target": np.array([0, 0.6, 1.2, 1.8])
+        "target": np.array([0, 0.6, 1.1, 1.6])
         }
         preds, val_loss = model_from_dict.validate(val_data)
         print(f"validation loss is {val_loss}")

@@ -21,7 +21,7 @@ class Dataset:
         
         kwargs = {'num_workers': 2, 'pin_memory': True} if gpu else {}  #this will produce batches on GPU
         train_dataloader = torch.utils.data.DataLoader(
-            self, batch_size=batch_size, collate_fn=self.default_collate_fn, **kwargs
+            self, batch_size=batch_size, collate_fn=self.default_collate_fn, shuffle = train, **kwargs
             )
         # print(f"pin memory : {train_dataloader.pin_memory}")
         return train_dataloader
