@@ -23,7 +23,7 @@ def train_simple_model():
 
     val_data = {
     "feature": np.array([[0, 0], [0, 2], [2, 0], [2, 2]]),
-    "target": np.array([0, 0.6, 1.2, 1.8])
+    "target": np.array([0, 0.6, 1.1, 1.6])
     }
 
     batch_size = 4
@@ -36,9 +36,9 @@ def train_simple_model():
     # model_dc_framework.dict_save("model_dict")
     # model_dc_framework.save_full("full_model")
     
-    # preds, val_loss = model_dc_framework.validate(val_data=val_data)
-    # print(f"validation loss is {val_loss}")
-    # print(f"Predictions {preds}")
+    preds, val_loss = model_dc_framework.validate(val_data=val_data, batch_size=batch_size)
+    print(f"validation loss is {val_loss}")
+    print(f"Predictions {preds}")
 
 def load_model_dict_test(path, validate=True):
     model = torch.nn.Sequential(

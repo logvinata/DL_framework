@@ -17,7 +17,6 @@ def use_gpu(method):
         else:
             dev = "cpu"
         print(f"Using {dev}")
-        
         args[0].model.to(dev)
         args[0].device = dev
         # print(f"model: {args[0].model} \n on device {args[0].device}")
