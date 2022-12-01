@@ -18,7 +18,7 @@ class Dataset:
         return self._data["feature"].size(0)
 
     def get_dataloader(self, batch_size, gpu, train=True):
-        kwargs = {'num_workers': 4, 'pin_memory': True} if gpu else {}  #this will produce batches on GPU
+        kwargs = {'num_workers': 2, 'pin_memory': True} if gpu else {}  #this will produce batches on GPU
         train_dataloader = torch.utils.data.DataLoader(
             self, batch_size=batch_size, collate_fn=self.default_collate_fn, **kwargs
             )
@@ -33,7 +33,7 @@ class Dataset:
             targets.append(sample[1])
 
         if len(features) > 1:
-            return torch.concat(features, 0), torch.concat(targets, 0)
+            return torch.stack(features, 0), torch.stack(targets, 0)
         else:
             return features[0].unsqueeze(0), targets[0].unsqueeze(0)
 

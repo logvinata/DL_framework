@@ -21,39 +21,44 @@ class DCFramework:
         self.criterion = criterion
         self.device = "cpu"
 
-    def forward(self, feature, target):
+    def forward(self, feature):
         try:
             output = self.model(feature)
         except:
             logger.warning(f"feature: {feature}")
             raise
-        try:
-            loss = self.criterion(output, target)
-        except:
-            logger.warning(f"output: {output}")
-            logger.warning(f"target: {target}")
-            raise
-        return {
-            "output": output,
-            "loss": loss
-        }
+        return output
+        
+
     @use_gpu # this should probably wrap a train_loop function
-    def train(self, train_data: Dict[str, np.array], batch_size: int = 1, gpu : bool = True):
+    def train(self, train_data: Dict[str, np.array], num_epochs : int = 500, batch_size: int = 2, gpu : bool = True, verbose : bool = False, eps : float = 10e-6):
         train_data = Dataset(train_data)
         train_dataloader = train_data.get_dataloader(batch_size=batch_size, gpu=gpu)
         #the upper part should move to train_loop.py, here we'll only have a train_dataloader object generated elsewhere
         train_losses = []
 
-        for batch in train_dataloader:
-            self.optimizer.zero_grad()
-            output = self.forward(*batch)
-            loss = output["loss"]
-            train_losses.append(loss.item())
-            loss.backward()
-            self.optimizer.step()
+        for epoch in range(num_epochs):
 
-        print(f"train loss is {np.mean(np.array(train_losses))}")
-        #this should be returned as an epoch loss to train_loop
+            running_loss = 0
+
+            for x_batch, y_batch in train_dataloader:
+                if train_dataloader.pin_memory:
+                    x_batch, y_batch = x_batch.cuda(non_blocking=True), y_batch.cuda(non_blocking=True)
+                # print(x_batch.is_cuda)
+                self.optimizer.zero_grad()
+                pred = self.forward(x_batch)
+                loss = self.criterion(pred, y_batch)
+
+                running_loss += 1 / (epoch + 1) * (loss.detach().cpu() - running_loss) #check the formula
+                
+                loss.backward()
+                self.optimizer.step()
+
+            train_losses.append(running_loss)
+            if verbose:
+                print(f"epoch {epoch} train loss is {running_loss}")
+            #this should be returned as an epoch loss to train_loop
+        return train_losses
 
     def validate(self, val_data: Dict[str, np.array], batch_size: int = 1, gpu=True):
         val_data = Dataset(val_data)
