@@ -8,3 +8,10 @@
 #others
 __pycache__
 
+#models
+dict
+full_model
+model_dict
+tmp
+tmp.pt
+
