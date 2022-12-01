@@ -15,3 +15,5 @@ model_dict
 tmp
 tmp.pt
 
+#git
+.gitignore
